@@ -1,12 +1,15 @@
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Routes, Route, Link, Switch } from "react-router-dom";
+import axios from 'axios';
 
 import Leaderboard from './leaderboard'
 import Recorder from './recorder'
 
-
 const Home = () => {
-    
+    axios
+    .post('http://localhost:5000/create', {"a":"b"})
+
+
     return (
         <div>
             <h2>Helloe</h2>
