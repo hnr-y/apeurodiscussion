@@ -1,39 +1,42 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
-import { onSnapshot, updateDoc, getFirestore, doc, getDoc, getDocs, collection, addDoc, query, where } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js";
 import { Link } from "react-router-dom";
+import io from 'socket.io-client';
 
 const Recorder = () => {
-    
-    const firebaseConfig = {
-        apiKey: "AIzaSyBvU2vc8XXwmCM2cYzMy-U34-dbmKRcuDI",
-        authDomain: "apeurodiscussion-1efe3.firebaseapp.com",
-        projectId: "apeurodiscussion-1efe3",
-        storageBucket: "apeurodiscussion-1efe3.appspot.com",
-        messagingSenderId: "581164709735",
-        appId: "1:581164709735:web:ccd584fe0151904f6de1c2",
-        measurementId: "G-76GNKYHHVE"
-    };
+    document.body.style.background = '#292C2E'
+    let size
+    let students
+    const socket = io('https://APEURODISCUSSIONLEADERBOARD.edwinhou.repl.co');
+    var database_data
+    socket.on('connect', (data) => {
+        console.log("connected to socket")
+        socket.emit('get_database')
+    })
+    socket.on('update_page', (data) => {
+        // students.sort(compare)
+        // students.sort(compare)
+        database_data = data
+        if (database_data.length !== students.length) {
+            document.querySelector('div.recorder').innerHTML = ''
+            students = database_data
+            build_page()
+        }
+        else {
+            students = database_data
+            for (let i = 0; i < students.length; i++) {
+                
+                document.getElementsByClassName(students[i].name)[0].getElementsByClassName(students[i].name + 'score')[0].innerHTML = "Score: " + students[i].points
 
-    initializeApp(firebaseConfig)
+            }
+        }
 
-    const db = getFirestore()
-    const colRef = collection(db, 'Students')
+    })
 
-    // async function get_query_data(q) {
-    //     let output
-    //     const data = query(colRef, where(...q))
-    //     getDocs(data).then((snapshot) => {
-    //         // console.log(snapshot.docs)
-    //         snapshot.docs.forEach((doc) => {
-    //             output = doc.data()
-    //         })
-    //     }).then(()=>{
-    //         console.log(output)
-    //         return output
-    //     })
-    //     // console.log(output)
+    socket.on('all_data', (data) => {
+        students = data
+        build_page()
+    })
 
-    // }
+
     function find_squares(x, y, n) {
         var ratio = x / y;
         var ncols_float = Math.sqrt(n * ratio);
@@ -70,24 +73,7 @@ const Recorder = () => {
         }
         return [nrows, ncols, cell_size]
     }
-    function update_document(q, key, value) {
-        const data = query(colRef, where(...q))
-        getDocs(data).then((snapshot) => {
-            // console.log(q)
 
-            snapshot.docs.forEach((doc) => {
-
-
-                updateDoc(doc.ref, {
-                    [key]: value
-                })
-            })
-            // return output
-        })
-    }
-    function add_entry(entry) {
-        addDoc(colRef, entry)
-    }
     function compare(a, b) {
         if (a.name < b.name) {
             return -1;
@@ -97,19 +83,7 @@ const Recorder = () => {
         }
         return 0;
     }
-
-    let size
-    let students = []
-    document.body.style.background = "#242526"
-    getDocs(colRef).then((snapshot) => {
-        students = []
-        snapshot.docs.forEach((doc) => {
-            students.push(doc.data())
-        })
-        // console.log(students.length)
-        students.sort(compare)
-    }).then(() => {
-
+    function build_page() {
         let squares = find_squares(window.innerWidth, window.innerHeight, students.length)
         let rows
         let column
@@ -124,13 +98,24 @@ const Recorder = () => {
                     var subtract = document.createElement('div');
                     var name = document.createElement('p')
                     var score = document.createElement('p')
-                    // var absent = document.createElement('div')
-                    // console.log(i,j)
-                    box.style = 'width:' + size + 'px;height:' + size + 'px;border:1px solid #000;position:absolute; margin-top:' + ((j * (size * 6 / 5)) + (window.innerHeight - rows * (size * 6 / 5)) / 2) + 'px;margin-left:' + (i * (size * 6 / 5) + (window.innerWidth - column * (size * 6 / 5)) / 2) + 'px;display: flex; justify-content: center; align-items: center;text-align: center'
-                    box.style.borderRadius = '20px';
-                    box.style.backgroundColor = '#6c6f72'
 
-                    subtract.style = "width:" + parseInt(box.style.width) / 2 + 'px;height:' + parseInt(box.style.height) / 8 + 'px; background-color:red;margin-top:' + parseInt(box.style.height) * 5 / 8 + 'px;position:absolute;z-index:999'
+                    // var absent = document.createElement('div')
+
+                    box.style = 'width:' + size + 'px;height:' + size + 'px;border:1px solid #5f6368;position:absolute; margin-top:' + ((j * (size * 6 / 5)) + (window.innerHeight - rows * (size * 6 / 5)) / 2) + 'px;margin-left:' + (i * (size * 6 / 5) + (window.innerWidth - column * (size * 6 / 5)) / 2) + 'px;display: flex; justify-content: center; align-items: center;text-align: center'
+                    box.style.borderRadius = '15px';
+                    // box.style.backgroundColor = '#6c6f72'
+
+                    subtract.style = "width:" + parseInt(box.style.width) / 5 + 'px;height:' + parseInt(box.style.width) / 5 + 'px;margin-top:' + parseInt(box.style.height) * 5 / 8 + 'px; position:absolute;text-align: center; display: flex; align-items: center; justify-content:center'
+                    subtract.style.borderRadius = '50%'
+                    subtract.style.border = '4px solid #5f6368'
+                    subtract.style.fontSize = parseInt(box.style.width) / 6 + 'px'
+                    subtract.style.color = '#5f6368'
+                    subtract.textContent = 'x'
+                    subtract.style.fontFamily = 'specialhelvetica'                    
+                    subtract.style.fontWeight= 'bold'
+                    // subtract.onmouseover = function(){
+                    //     subtract.style.backgroundColor = 'red'
+                    // }
                     subtract.className = students[count].name + "sub"
                     // absent.style = "width:" + parseInt(box.style.width) / 8 + 'px;height:' + parseInt(box.style.height) / 8 + 'px; background-color:blue;margin-top:' + parseInt(box.style.height) * 5 / 8 + 'px;position:absolute;z-index:999'
                     // absent.innerHTML = 'X'
@@ -140,18 +125,22 @@ const Recorder = () => {
                     // absent.style.marginLeft = '10px'
                     box.className = students[count].name
                     name.innerHTML = box.className
-                    name.style.fontFamily = "Karla"
-                    name.style.fontSize = size * 0.12 + 'px'
+                    name.style.fontFamily = "specialhelvetica"
+                    name.style.fontSize = size * 0.15 + 'px'
+                    name.style.color = 'white'
+                    name.style.fontWeight = '500'
                     score.innerHTML = 'Score: ' + students[count].points
                     score.style.position = 'absolute'
                     score.style.marginTop = '-50%'
                     score.className = students[count].name + "score"
+                    score.style.fontFamily = 'specialhelvetica'
+                    score.style.color = 'white'
                     box.onselectstart = function () { return false }
                     box.appendChild(name)
                     box.appendChild(subtract)
                     box.appendChild(score)
                     // box.appendChild(absent)
-                    document.body.appendChild(box)
+                    document.querySelector('div.recorder').appendChild(box)
                     count += 1
                 }
                 catch {
@@ -159,71 +148,52 @@ const Recorder = () => {
                 }
             }
         }
+        for (let i = 0; i < students.length; i++) {
 
-        for (let i = 0; i < count; i++) {
-            // console.log(students[i].entry.name)
             document.getElementsByClassName(students[i].name)[0].addEventListener('click', function (event) {
-                // console.log(students[i].name, i)
 
-                update_document(['name', '==', students[i].name], "points", students[i].points + 1)
-                // students[i].points += 1
-
+                socket.emit('update_data', [students[i].id, "points", students[i].points += 1])
                 document.getElementsByClassName(students[i].name)[0].style.backgroundColor = 'green'
                 setTimeout(function () {
-                    document.getElementsByClassName(students[i].name)[0].style.backgroundColor = "#6c6f72";  // Change the color back to the original
+                    document.getElementsByClassName(students[i].name)[0].style.backgroundColor = "#292C2E";  // Change the color back to the original
                 }, 300);
 
             })
             document.getElementsByClassName(students[i].name + 'sub')[0].addEventListener('click', function (event) {
 
                 event.stopPropagation()
-                update_document(['name', '==', students[i].name], "points", students[i].points - 1)
-                // students[i].points -= 1
+                socket.emit('update_data', [students[i].id, "points", students[i].points -= 1])
 
                 document.getElementsByClassName(students[i].name)[0].style.backgroundColor = 'red'
                 setTimeout(function () {
-                    document.getElementsByClassName(students[i].name)[0].style.backgroundColor = "#6c6f72";  // Change the color back to the original
+                    document.getElementsByClassName(students[i].name)[0].style.backgroundColor = "#292C2E";  // Change the color back to the original
                 }, 300);
 
             })
-            // document.getElementsByClassName(students[i].name + 'absent')[0].addEventListener('click', function (event) {
-            //     event.stopPropagation()
-            //     update_document(['name', '==', students[i].name], "absent", true)
-            // })
+            document.getElementsByClassName(students[i].name + 'sub')[0].addEventListener('mouseover', function (event) {
+                document.getElementsByClassName(students[i].name+'sub')[0].style.backgroundColor = 'red'
+            })
+            document.getElementsByClassName(students[i].name + 'sub')[0].addEventListener('mouseleave', function (event) {
+                document.getElementsByClassName(students[i].name+'sub')[0].style.backgroundColor = '#292C2E'
+            })
         }
-    })
+    }
 
-    onSnapshot(colRef, (snapshot) => {
-        students = []
-        snapshot.docs.forEach((doc) => {
-            students.push(doc.data())
-        })
-        students.sort(compare)
-        for (let i = 0; i < students.length; i++) {
-            if (students[i].absent == true) {
-                const overlay = document.createElement('div')
-                const absent_name = document.createElement('div')
-                overlay.style = "width:" + parseInt(document.getElementsByClassName(students[i].name)[0].style.width) + 'px;height:' + parseInt(document.getElementsByClassName(students[i].name)[0].style.height) + 'px; background-color:red;margin-top:' + 'px;position:absolute;z-index:999; '
-                overlay.style.borderRadius = '20px';
-                absent_name.innerHTML = students[i].name
-                document.getElementsByClassName(students[i].name)[0].appendChild(overlay)
-                overlay.appendChild(absent_name)
-                console.log(students[i].absent)
-            }
-            // console.log(students[i].absent)
-
-            document.getElementsByClassName(students[i].name)[0].getElementsByClassName(students[i].name + 'score')[0].innerHTML = "score: " + students[i].points
-            // console.log(document.getElementsByClassName(students[i].name)[0].getElementsByClassName(students[i].name+'score')[0].innerHTML)
-        }
-    })
     return (
         <div>
-            <Link style={{ marginLeft: 100 }} to="/">home</Link>
+            {/* <Link style={{ marginLeft: 100 }} to="/">home</Link>
             <Link style={{ marginLeft: 100 }} to="/recorder">recorder</Link>
-            <Link style={{ marginLeft: 100 }} to="/leaderboard">leaderboard</Link>
+            <Link style={{ marginLeft: 100 }} to="/leaderboard">leaderboard</Link> */}
+            <h1 style={{ textAlign: "center", fontSize: "8vh", marginTop: 0, marginBottom: 0 , fontFamily: 'specialhelvetica'}}>
+                AP European <span style={{ color: "white" }}>History</span>
+            </h1>
+            <div className="recorder" style={{
+                minWidth: "100vh", minHeight: "50vh", background: "#292C2E", display: "grid",
+                gridTemplateColumns: "auto auto auto"
+            }}>
         </div>
+        </div >
     )
-
 }
 
 export default Recorder

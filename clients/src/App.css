@@ -1,0 +1,5 @@
+@font-face {
+    font-family: "specialhelvetica";   /*Can be any text*/
+    src:
+      url("./HelveticaNowDisplay-Light.ttf") format("truetype");
+  }
