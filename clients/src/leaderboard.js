@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import io from 'socket.io-client';
-import './App.css'
+
 
 
 
@@ -17,7 +17,7 @@ const Leaderboard = () => {
         return 0;
 
     }
-    const socket = io('https://APEURODISCUSSIONLEADERBOARD.edwinhou.repl.co');
+    const socket = io('localhost:5000');
     socket.on('connect', (data) => {
 
         console.log("connected to socket")
@@ -158,7 +158,7 @@ const Leaderboard = () => {
                 var number = document.createElement('p')
                 var raw_score = document.createElement('p')
                 var actual_score = document.createElement('p')
-                div.style = 'width: 86vw; height:' + '6vh;border-width:1px; border-style: solid; display: flex; align-items: center;text-align: center'
+                div.style = 'width: 86vw; height:' + '6vh;border-width:0px; border-style: solid; display: flex; align-items: center;text-align: center'
                 div.style.position = 'absolute'
                 div.style.marginTop = 7 * (i + 1) + 25 + "vh";
                 div.style.marginLeft = "8vw"
@@ -208,7 +208,7 @@ const Leaderboard = () => {
             {/* <Link style={{ marginLeft: 100 }} to="/">home</Link>
             <Link style={{ marginLeft: 100 }} to="/recorder">recorder</Link>
             <Link style={{ marginLeft: 100 }} to="/leaderboard">leaderboard</Link> */}
-            <h1 style={{ textAlign: "center", fontSize: "8vh", marginTop: 0, marginBottom: 0, fontFamily: 'specialhelvetica' }}>
+            <h1 style={{ textAlign: "center", fontSize: "5vh", marginTop: 0, marginBottom: 0, fontFamily: 'specialhelvetica' }}>
                 AP European <span style={{ color: "white" }}>History</span>
             </h1>
             <div className="leaderboard" style={{ minHeight: "100vh", background: "#292C2E" }}>

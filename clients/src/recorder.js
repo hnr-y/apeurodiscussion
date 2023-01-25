@@ -5,7 +5,7 @@ const Recorder = () => {
     document.body.style.background = '#292C2E'
     let size
     let students
-    const socket = io('https://APEURODISCUSSIONLEADERBOARD.edwinhou.repl.co');
+    const socket = io('localhost:5000');
     var database_data
     socket.on('connect', (data) => {
         console.log("connected to socket")
@@ -23,7 +23,7 @@ const Recorder = () => {
         else {
             students = database_data
             for (let i = 0; i < students.length; i++) {
-                
+
                 document.getElementsByClassName(students[i].name)[0].getElementsByClassName(students[i].name + 'score')[0].innerHTML = "Score: " + students[i].points
 
             }
@@ -84,12 +84,15 @@ const Recorder = () => {
         return 0;
     }
     function build_page() {
-        let squares = find_squares(window.innerWidth, window.innerHeight, students.length)
+        let h = Math.max(document.querySelector('div.recorder').clientHeight)
+        let w = Math.max(document.querySelector('div.recorder').clientWidth)
+        let squares = find_squares(w, h, students.length)
         let rows
         let column
+        console.log(h, w)
         rows = squares[0]
         column = squares[1]
-        size = squares[2] * 3 / 4
+        size = squares[2] * 0.765
         let count = 0
         for (let j = 0; j < rows; j++) {
             for (let i = 0; i < column; i++) {
@@ -101,18 +104,19 @@ const Recorder = () => {
 
                     // var absent = document.createElement('div')
 
-                    box.style = 'width:' + size + 'px;height:' + size + 'px;border:1px solid #5f6368;position:absolute; margin-top:' + ((j * (size * 6 / 5)) + (window.innerHeight - rows * (size * 6 / 5)) / 2) + 'px;margin-left:' + (i * (size * 6 / 5) + (window.innerWidth - column * (size * 6 / 5)) / 2) + 'px;display: flex; justify-content: center; align-items: center;text-align: center'
+                    box.style = 'width:' + size + 'px;height:' + size + 'px;border:1px solid #5f6368;position:absolute; margin-top:' + ((j * (size * 10 / 9)) + (h - rows * (size * 10 / 9)) / 2) + 'px;margin-left:' + (i * (size * 10 / 9) + (w - column * (size * 10 / 9)) / 2) + 'px;display: flex; justify-content: center; align-items: center;text-align: center'
+
                     box.style.borderRadius = '15px';
                     // box.style.backgroundColor = '#6c6f72'
 
                     subtract.style = "width:" + parseInt(box.style.width) / 5 + 'px;height:' + parseInt(box.style.width) / 5 + 'px;margin-top:' + parseInt(box.style.height) * 5 / 8 + 'px; position:absolute;text-align: center; display: flex; align-items: center; justify-content:center'
-                    subtract.style.borderRadius = '50%'
-                    subtract.style.border = '4px solid #5f6368'
+                    // subtract.style.borderRadius = '50%'
+                    subtract.style.border = '0px solid #5f6368'
                     subtract.style.fontSize = parseInt(box.style.width) / 6 + 'px'
                     subtract.style.color = '#5f6368'
-                    subtract.textContent = 'x'
-                    subtract.style.fontFamily = 'specialhelvetica'                    
-                    subtract.style.fontWeight= 'bold'
+                    // subtract.textContent = 'x'
+                    subtract.style.fontFamily = 'specialhelvetica'
+                    subtract.style.fontWeight = 'bold'
                     // subtract.onmouseover = function(){
                     //     subtract.style.backgroundColor = 'red'
                     // }
@@ -126,7 +130,7 @@ const Recorder = () => {
                     box.className = students[count].name
                     name.innerHTML = box.className
                     name.style.fontFamily = "specialhelvetica"
-                    name.style.fontSize = size * 0.15 + 'px'
+                    name.style.fontSize = size * 0.12 + 'px'
                     name.style.color = 'white'
                     name.style.fontWeight = '500'
                     score.innerHTML = 'Score: ' + students[count].points
@@ -135,6 +139,7 @@ const Recorder = () => {
                     score.className = students[count].name + "score"
                     score.style.fontFamily = 'specialhelvetica'
                     score.style.color = 'white'
+                    score.style.fontSize = size * 0.12 + 'px'
                     box.onselectstart = function () { return false }
                     box.appendChild(name)
                     box.appendChild(subtract)
@@ -148,6 +153,17 @@ const Recorder = () => {
                 }
             }
         }
+        // function show(body) {
+        //     opacity = Number(window.getComputedStyle(body)
+        //                     .getPropertyValue("opacity"));
+        //     if (opacity < 1) {
+        //         opacity = opacity + 0.1;
+        //         body.style.opacity = opacity
+        //     } else {
+        //         clearInterval(intervalID);
+        //     }
+        // }
+
         for (let i = 0; i < students.length; i++) {
 
             document.getElementsByClassName(students[i].name)[0].addEventListener('click', function (event) {
@@ -170,11 +186,20 @@ const Recorder = () => {
                 }, 300);
 
             })
+
             document.getElementsByClassName(students[i].name + 'sub')[0].addEventListener('mouseover', function (event) {
-                document.getElementsByClassName(students[i].name+'sub')[0].style.backgroundColor = 'red'
+                document.getElementsByClassName(students[i].name + 'sub')[0].style.color = 'red'
             })
             document.getElementsByClassName(students[i].name + 'sub')[0].addEventListener('mouseleave', function (event) {
-                document.getElementsByClassName(students[i].name+'sub')[0].style.backgroundColor = '#292C2E'
+                document.getElementsByClassName(students[i].name + 'sub')[0].style.color = '#5f6368'
+            })
+            document.getElementsByClassName(students[i].name)[0].addEventListener('mouseover', function (event) {
+
+                document.getElementsByClassName(students[i].name + 'sub')[0].textContent = 'x'
+            })
+            document.getElementsByClassName(students[i].name)[0].addEventListener('mouseleave', function (event) {
+
+                document.getElementsByClassName(students[i].name + 'sub')[0].textContent = ''
             })
         }
     }
@@ -184,14 +209,15 @@ const Recorder = () => {
             {/* <Link style={{ marginLeft: 100 }} to="/">home</Link>
             <Link style={{ marginLeft: 100 }} to="/recorder">recorder</Link>
             <Link style={{ marginLeft: 100 }} to="/leaderboard">leaderboard</Link> */}
-            <h1 style={{ textAlign: "center", fontSize: "8vh", marginTop: 0, marginBottom: 0 , fontFamily: 'specialhelvetica'}}>
+            <h1 style={{ textAlign: "center", fontSize: "5vh", marginTop: 0, marginBottom: 0, fontFamily: 'specialhelvetica' }}>
                 AP European <span style={{ color: "white" }}>History</span>
             </h1>
+
             <div className="recorder" style={{
-                minWidth: "100vh", minHeight: "50vh", background: "#292C2E", display: "grid",
+                width: "90vw", height: "90vh", background: "#292C2E", display: "grid", marginLeft: "5%",
                 gridTemplateColumns: "auto auto auto"
             }}>
-        </div>
+            </div>
         </div >
     )
 }

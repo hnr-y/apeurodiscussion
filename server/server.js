@@ -6,11 +6,14 @@ http = require('http')
 socketIO = require('socket.io')
 
 var con = mysql.createConnection({
-    host: "sql9.freemysqlhosting.net",
-    user: "sql9591270",
-    database: "sql9591270",
-    password: "PAGs3lzZB4",
+    host: "apeurotesting.cgogk6qktlax.us-west-1.rds.amazonaws.com",
+    user: "admin",
+    database: "apeurodiscussion",
+    password: "edwinscockishard",
+    port: 3306,
 });
+
+
 function compare(a, b) {
     if (a.points > b.points) {
         return -1;

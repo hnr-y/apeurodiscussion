@@ -3,3 +3,7 @@
     src:
       url("./HelveticaNowDisplay-Light.ttf") format("truetype");
   }
+  * {
+    margin: 0;
+    padding: 0;
+  }
