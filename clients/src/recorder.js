@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import io from 'socket.io-client';
-
+import "./recorder.css"
+import Burger from "./Burger";
 const Recorder = () => {
     document.body.style.background = '#292C2E'
     let size
@@ -92,7 +93,7 @@ const Recorder = () => {
         console.log(h, w)
         rows = squares[0]
         column = squares[1]
-        size = squares[2] * 0.765
+        size = squares[2] * 0.8
         let count = 0
         for (let j = 0; j < rows; j++) {
             for (let i = 0; i < column; i++) {
@@ -114,20 +115,23 @@ const Recorder = () => {
                     subtract.style.border = '0px solid #5f6368'
                     subtract.style.fontSize = parseInt(box.style.width) / 6 + 'px'
                     subtract.style.color = '#5f6368'
-                    // subtract.textContent = 'x'
+                    subtract.textContent = 'X'
                     subtract.style.fontFamily = 'specialhelvetica'
                     subtract.style.fontWeight = 'bold'
                     // subtract.onmouseover = function(){
                     //     subtract.style.backgroundColor = 'red'
                     // }
                     subtract.className = students[count].name + "sub"
+                    subtract.setAttribute('tag', 'subtract')
                     // absent.style = "width:" + parseInt(box.style.width) / 8 + 'px;height:' + parseInt(box.style.height) / 8 + 'px; background-color:blue;margin-top:' + parseInt(box.style.height) * 5 / 8 + 'px;position:absolute;z-index:999'
                     // absent.innerHTML = 'X'
                     // absent.style.marginLeft = -parseInt(box.style.width) / 2 - parseInt(box.style.width) / 4 + 'px'
                     // absent.className = students[count].name + "absent"
                     // absent.style.fontSize = parseInt(box.style.width) * 0.1 + 'px'
                     // absent.style.marginLeft = '10px'
+                    box.setAttribute("tag", "boxes")
                     box.className = students[count].name
+
                     name.innerHTML = box.className
                     name.style.fontFamily = "specialhelvetica"
                     name.style.fontSize = size * 0.12 + 'px'
@@ -135,7 +139,7 @@ const Recorder = () => {
                     name.style.fontWeight = '500'
                     score.innerHTML = 'Score: ' + students[count].points
                     score.style.position = 'absolute'
-                    score.style.marginTop = '-50%'
+                    score.style.marginTop = '-100%'
                     score.className = students[count].name + "score"
                     score.style.fontFamily = 'specialhelvetica'
                     score.style.color = 'white'
@@ -153,16 +157,6 @@ const Recorder = () => {
                 }
             }
         }
-        // function show(body) {
-        //     opacity = Number(window.getComputedStyle(body)
-        //                     .getPropertyValue("opacity"));
-        //     if (opacity < 1) {
-        //         opacity = opacity + 0.1;
-        //         body.style.opacity = opacity
-        //     } else {
-        //         clearInterval(intervalID);
-        //     }
-        // }
 
         for (let i = 0; i < students.length; i++) {
 
@@ -193,22 +187,13 @@ const Recorder = () => {
             document.getElementsByClassName(students[i].name + 'sub')[0].addEventListener('mouseleave', function (event) {
                 document.getElementsByClassName(students[i].name + 'sub')[0].style.color = '#5f6368'
             })
-            document.getElementsByClassName(students[i].name)[0].addEventListener('mouseover', function (event) {
-
-                document.getElementsByClassName(students[i].name + 'sub')[0].textContent = 'x'
-            })
-            document.getElementsByClassName(students[i].name)[0].addEventListener('mouseleave', function (event) {
-
-                document.getElementsByClassName(students[i].name + 'sub')[0].textContent = ''
-            })
         }
     }
 
     return (
         <div>
-            {/* <Link style={{ marginLeft: 100 }} to="/">home</Link>
-            <Link style={{ marginLeft: 100 }} to="/recorder">recorder</Link>
-            <Link style={{ marginLeft: 100 }} to="/leaderboard">leaderboard</Link> */}
+            <Burger></Burger>
+
             <h1 style={{ textAlign: "center", fontSize: "5vh", marginTop: 0, marginBottom: 0, fontFamily: 'specialhelvetica' }}>
                 AP European <span style={{ color: "white" }}>History</span>
             </h1>

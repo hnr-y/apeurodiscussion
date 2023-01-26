@@ -2,6 +2,17 @@ const express = require('express');
 const logger = require('morgan');
 const cors = require('cors');
 var mysql = require('mysql');
+const { google } = require("googleapis");
+const keys = require('./credentials.json')
+const client = new google.auth.JWT(
+    keys.client_email,
+    null,
+    keys.private_key,
+    ["https://www.googleapis.com/auth/spreadsheets"]
+
+)
+var gsapi
+
 http = require('http')
 socketIO = require('socket.io')
 
@@ -13,21 +24,62 @@ var con = mysql.createConnection({
     port: 3306,
 });
 
+async function spreadsheetsetup() {
+    await client.authorize(function (err, token) {
+        if (err) {
+            console.log(err)
+            return;
+        } else {
+            console.log('aa')
 
-function compare(a, b) {
-    if (a.points > b.points) {
-        return -1;
+        }
+    })
+    gsapi = google.sheets({ version: "v4", auth: client })
+}
+async function update_sheets(r, v) {
+    var options = {
+        spreadsheetId: '1tO9Cu5hEy0CPxLPnKETTZz26zjr_PR8AIb2650jdsbA',
+        range: r,
+        valueInputOption: "USER_ENTERED",
+        spreadsheetId: "1tO9Cu5hEy0CPxLPnKETTZz26zjr_PR8AIb2650jdsbA",
+        resource: { values: v },
+
     }
-    if (a.points < b.points) {
-        return 1;
+
+    // var data = await gsapi.spreadsheets.values.get(opt)
+    // console.log(data.data.values)
+    // let res = await gsapi.spreadsheets.values.update(updateOptions)
+    await gsapi.spreadsheets.values.update(options)
+}
+async function create_new_sheets(t) {
+    var options = {
+        spreadsheetId: "1tO9Cu5hEy0CPxLPnKETTZz26zjr_PR8AIb2650jdsbA",
+        resource: {
+            requests: [{
+                addSheet: {
+                    properties: {
+                        title: t
+
+                    }
+                }
+            }]
+        }
     }
-    return 0;
+    await gsapi.spreadsheets.batchUpdate(options)
 
 }
+// function compare(a, b) {
+//     if (a.points > b.points) {
+//         return -1;
+//     }
+//     if (a.points < b.points) {
+//         return 1;
+//     }
+//     return 0;
+
+// }
 
 const app = express();
-
-//use cors to allow cross origin resource sharing
 app.use(
     cors()
 );
@@ -70,41 +122,66 @@ con.connect(function (err) {
                 io.sockets.emit('update_page', database_data)
             });
         })
+        socket.on('spreadsheet', () => {
+            spreadsheetsetup().then(function () {
+                var sum = 0
+                for (let i = 0; i < database_data.length; i++) {
+                    sum += database_data[i].points
+                }
+                var spreadsheetdata = [["Date", "Period", "Average", "Teacher"], [new Date().toLocaleDateString(), database_data[0].period, average, database_data[0].teacher], ['', '', '', ''], ['', '', '', ''], ["First Name", "Last Name", "Points", "Percentage"]]
+                for (let i = 0; i < database_data.length; i++) {
+                    var firstname = database_data[i].name.split(/(\s+)/)[0]
+                    var lastname = database_data[i].name.split(/(\s+)/)[2]
+                    spreadsheetdata.push([firstname, lastname, database_data[i].points, (database_data[i].points / average * 100).toFixed(2) + '%'])
+                }
+                var average = sum / database_data.length
+                average = average.toFixed(2)
+
+                var spreadsheettitle = new Date().toLocaleDateString('en-us', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+                create_new_sheets(spreadsheettitle).then(() => {
+                    update_sheets(spreadsheettitle + "!A1", spreadsheetdata)
+                }
+                )
+
+            })
+
+        })
 
     });
     let a = [
-        "Akash	Gupta-Verma",
-        "Alex	Yung",
-        "Althea	Haas",
-        "August	Sanders",
-        "Ava	Delaossa",
-        "Ava	Thompson",
-        "Azure	Zilka",
-        "Bianca	Nazarian",
-        "Bria	Shimada",
-        "Brody	Horwitz",
-        "Brooke	Hanson",
-        "Claire	Mayder",
-        "Dat	Phan",
-        "Eric	Wang",
-        "Grayson	Dyer",
-        "Hoa	Nguyen",
-        "Jovian	Hayden",
-        "Kaedon	Chung",
-        "Keira	Sullivan",
-        "Leo	Monteiro Villela",
-        "Nisha	Jani",
-        "Noa	Dohler Guilera",
-        "Paola	Gomez-Llagaria",
-        "Parker	Winokur",
-        "Saira	Panchal",
-        "Sara	Niemeyer",
-        "Shaurya	Banjara",
-        "Sky	Taylor",
-        "Tanav	Shankar",
-        "Yanis	Malhotra",
-        "Zac	Renfrew",
-        "Zach	Biller",
+        'Emerson Adams',
+        'Anvita Anand',
+        'Kayden Bakhtiari',
+        'Dena Bernstein',
+        'Brianne Blum',
+        'Michael Chekler',
+        'Olivia Dang',
+        'Katherine Darbinyan',
+        'Bonnie Davis',
+        'Naveen Ettema',
+        'Dee Goldberg',
+        'Edwin Hou',
+        'Margaret Kennedy',
+        'Neil Khandelwal',
+        'Benjamin Klarich',
+        'Lochlan Kominar',
+        'Murdoch McNelly',
+        'Grant Murphy',
+        'Annika Norquist',
+        'Ella Noy',
+        'Lliam Pitt',
+        'Aleksandra Rombakh',
+        'Sarina Salzer-Swartz',
+        'Leon Sarashki',
+        'Rushil Sharma',
+        'Carrick Stevens',
+        'Anna Suvorova',
+        'David Thorsteinsson',
+        'Ihsan Unal',
+        'Andrew Ventocilla',
+        'Hannah Wells',
+        'Andrew Zheng',
+        'Zoey Zhu',
     ]
     // for (let i = 0; i < a.length; i++) {
     //     con.query('INSERT INTO apeurodiscussion (name,id,points,teacher,period) VALUES ('+JSON.stringify(a[i])+', ' +i +', '+'0' +','+ '"Hughes"'+', '+'6'+')')

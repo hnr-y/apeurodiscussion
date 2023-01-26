@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import io from 'socket.io-client';
+import Burger from './Burger';
 
 
 
@@ -55,7 +56,7 @@ const Leaderboard = () => {
                 var median = students[(students.length - 1) / 2].points
             }
             average = average.toFixed(2)
-            document.getElementsByClassName('statistics')[0].innerHTML = "Statistics for: " + students[0].teacher + " period " + students[0].period + "<br />" +
+            document.getElementsByClassName('statistics')[0].innerHTML = 
                 'Average: ' + average + '&nbsp;'.repeat(50) + 'High: ' + students[0].points + "<br />" +
                 "Median: " + median + '&nbsp;'.repeat(55) + "Low: " + students.at(-1).points
             for (let i = 0; i < students.length; i++) {
@@ -82,7 +83,7 @@ const Leaderboard = () => {
         const stats = document.createElement('div')
         stats.style = 'width: 86vw; height:' + '18vh;border-width:1px; border-style: solid; display: flex; justify-content: left; align-items: center; text-align:center'
         stats.style.position = 'absolute'
-        stats.style.marginLeft = "8vw"
+        stats.style.marginLeft = "7vw"
         stats.style.borderRadius = "5px"
         stats.style.borderColor = '#5f6368'
         stats.style.marginTop = '5vh'
@@ -96,7 +97,7 @@ const Leaderboard = () => {
         else {
             var median = students[(students.length - 1) / 2].points
         }
-        statistics.innerHTML = "Statistics for: " + students[0].teacher + " period " + students[0].period + "<br />" +
+        statistics.innerHTML = 
             'Average: ' + average + '&nbsp;'.repeat(50) + 'High: ' + students[0].points + "<br />" +
             "Median: " + median + '&nbsp;'.repeat(55) + "Low: " + students.at(-1).points
 
@@ -107,6 +108,7 @@ const Leaderboard = () => {
         statistics.style.height = '100%'
         statistics.style.position = 'absolute'
         statistics.style.color = 'white'
+        statistics.style.marginTop = "3%"
         stats.appendChild(statistics)
         document.querySelector('div.leaderboard').appendChild(stats)
 
@@ -115,15 +117,15 @@ const Leaderboard = () => {
         var number = document.createElement('p')
         var raw_score = document.createElement('p')
         var actual_score = document.createElement('p')
-        div.style = 'width: 85vw; height:' + '6vh; display: flex; justify-content: left; align-items: center;text-align: center'
+        div.style = 'width: 86vw; height:' + '6vh; display: flex; justify-content: left; align-items: center;text-align: center'
 
         div.style.position = 'absolute'
         div.style.marginTop = 25 + "vh";
-        div.style.marginLeft = "8vw"
+        div.style.marginLeft = "7vw"
         // div.style.borderRadius = "5px"
         // div.style.borderColor = '#5f6368'
 
-        name.innerText = "Name:";
+        name.innerText = "Name";
         name.style.fontSize = "6vh"
         name.style.fontFamily = 'specialhelvetica'
         name.style.marginLeft = '10vw'
@@ -134,12 +136,12 @@ const Leaderboard = () => {
         number.style.marginLeft = '1vw'
         number.style.position = 'absolute'
 
-        raw_score.innerText = "Score:";
+        raw_score.innerText = "Score";
         raw_score.style.marginLeft = '50vw'
         raw_score.style.position = 'absolute'
         raw_score.style.fontSize = "6vh"
         raw_score.style.fontFamily = 'specialhelvetica'
-        actual_score.innerText = "Percentage:";
+        actual_score.innerText = "Percentage";
         actual_score.style.position = 'absolute'
         actual_score.style.fontSize = "6vh"
         actual_score.style.fontFamily = 'specialhelvetica'
@@ -161,7 +163,7 @@ const Leaderboard = () => {
                 div.style = 'width: 86vw; height:' + '6vh;border-width:0px; border-style: solid; display: flex; align-items: center;text-align: center'
                 div.style.position = 'absolute'
                 div.style.marginTop = 7 * (i + 1) + 25 + "vh";
-                div.style.marginLeft = "8vw"
+                div.style.marginLeft = "7vw"
                 div.style.borderRadius = "5px"
                 div.style.borderColor = '#5f6368'
                 div.className = students[i].name
@@ -205,6 +207,7 @@ const Leaderboard = () => {
 
     return (
         <div style={{ marginTop: 0 }}>
+            <Burger></Burger>
             {/* <Link style={{ marginLeft: 100 }} to="/">home</Link>
             <Link style={{ marginLeft: 100 }} to="/recorder">recorder</Link>
             <Link style={{ marginLeft: 100 }} to="/leaderboard">leaderboard</Link> */}
