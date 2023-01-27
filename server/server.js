@@ -30,18 +30,25 @@ async function spreadsheetsetup() {
             console.log(err)
             return;
         } else {
-            console.log('aa')
+            // console.log('spreadsheet connected')
 
         }
     })
     gsapi = google.sheets({ version: "v4", auth: client })
+    const result = (await gsapi.spreadsheets.get({
+        spreadsheetId: "1tO9Cu5hEy0CPxLPnKETTZz26zjr_PR8AIb2650jdsbA"
+    })).data.sheets.map((sheet) => {
+        return sheet.properties.title
+    })
+
+    return result
 }
 async function update_sheets(r, v) {
     var options = {
         spreadsheetId: '1tO9Cu5hEy0CPxLPnKETTZz26zjr_PR8AIb2650jdsbA',
         range: r,
         valueInputOption: "USER_ENTERED",
-        spreadsheetId: "1tO9Cu5hEy0CPxLPnKETTZz26zjr_PR8AIb2650jdsbA",
+
         resource: { values: v },
 
     }
@@ -110,11 +117,11 @@ con.connect(function (err) {
             });
         })
         socket.on('update_data', (data) => {
-            console.log(data)
+            // console.log(data)
 
             con.query("UPDATE apeurodiscussion SET " + data[1] + " = " + JSON.stringify(data[2]) + " WHERE Id = " + data[0], function (err, result) {
                 if (err) throw err;
-                console.log(result)
+                // console.log(result)
             });
             con.query("SELECT * FROM apeurodiscussion", function (err, result) {
                 if (err) throw err;
@@ -123,25 +130,32 @@ con.connect(function (err) {
             });
         })
         socket.on('spreadsheet', () => {
-            spreadsheetsetup().then(function () {
+            spreadsheetsetup().then(function (sheet_list) {
                 var sum = 0
                 for (let i = 0; i < database_data.length; i++) {
                     sum += database_data[i].points
                 }
+                var average = sum / database_data.length
+                average = average.toFixed(2)
                 var spreadsheetdata = [["Date", "Period", "Average", "Teacher"], [new Date().toLocaleDateString(), database_data[0].period, average, database_data[0].teacher], ['', '', '', ''], ['', '', '', ''], ["First Name", "Last Name", "Points", "Percentage"]]
                 for (let i = 0; i < database_data.length; i++) {
                     var firstname = database_data[i].name.split(/(\s+)/)[0]
                     var lastname = database_data[i].name.split(/(\s+)/)[2]
                     spreadsheetdata.push([firstname, lastname, database_data[i].points, (database_data[i].points / average * 100).toFixed(2) + '%'])
                 }
-                var average = sum / database_data.length
-                average = average.toFixed(2)
+
 
                 var spreadsheettitle = new Date().toLocaleDateString('en-us', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
-                create_new_sheets(spreadsheettitle).then(() => {
+                // console.log(sheet_list)
+                if (!sheet_list.includes(spreadsheettitle)) {
+                    create_new_sheets(spreadsheettitle).then(() => {
+                        update_sheets(spreadsheettitle + "!A1", spreadsheetdata)
+                    }
+                    )
+                }else{
                     update_sheets(spreadsheettitle + "!A1", spreadsheetdata)
                 }
-                )
+                
 
             })
 
