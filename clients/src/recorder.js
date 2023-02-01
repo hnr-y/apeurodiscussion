@@ -6,11 +6,25 @@ const Recorder = () => {
     document.body.style.background = '#292C2E'
     let size
     let students
-    const socket = io('localhost:5000');
+    const socket = io('http://54.151.75.108/', { path: '/server'});
     var database_data
     socket.on('connect', (data) => {
-        console.log("connected to socket")
-        socket.emit('get_database')
+	    var pwd;
+	                while (pwd == null) { pwd = prompt("please enter the  password")
+				console.log(pwd)
+				              socket.emit('authentication',pwd)}
+								                                     
+    	
+    socket.on('auth', (data)=>{
+	if(data=="correct"){
+		console.log("aaaa")
+		socket.emit('get_database')
+		return("correct")
+	}
+	    else{
+document.body.innerHTML='<div><h1 style="position:fixed; top: 10%; left: 50%; transform: translate(-50%, -50%); fontSize:10vh;">Wrong Password</h1><img src="https://media.tenor.com/s6Y_D_8viO4AAAAC/clash-royale-cry.gif" style="height:60vh; position:fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);"></img></div>'
+
+	    }
     })
     socket.on('update_page', (data) => {
         // students.sort(compare)
@@ -35,6 +49,7 @@ const Recorder = () => {
     socket.on('all_data', (data) => {
         students = data
         build_page()
+    })
     })
 
 
@@ -141,7 +156,7 @@ const Recorder = () => {
                     score.style.position = 'absolute'
                     score.style.marginTop = '-100%'
                     score.className = students[count].name + "score"
-                    score.style.fontFamily = 'specialhelvetica'
+                    score.style.fontFamly = 'specialhelvetica'
                     score.style.color = 'white'
                     score.style.fontSize = size * 0.12 + 'px'
                     box.onselectstart = function () { return false }
@@ -161,12 +176,11 @@ const Recorder = () => {
         for (let i = 0; i < students.length; i++) {
 
             document.getElementsByClassName(students[i].name)[0].addEventListener('click', function (event) {
-
+                event.stopPropagation()
                 socket.emit('update_data', [students[i].id, "points", students[i].points += 1])
                 document.getElementsByClassName(students[i].name)[0].style.backgroundColor = 'green'
                 setTimeout(function () {
-                    document.getElementsByClassName(students[i].name)[0].style.backgroundColor = "#292C2E";  // Change the color back to the original
-                }, 300);
+                    document.getElementsByClassName(students[i].name)[0].style.backgroundColor = "#292C2E";}, 300);
 
             })
             document.getElementsByClassName(students[i].name + 'sub')[0].addEventListener('click', function (event) {
@@ -176,8 +190,7 @@ const Recorder = () => {
 
                 document.getElementsByClassName(students[i].name)[0].style.backgroundColor = 'red'
                 setTimeout(function () {
-                    document.getElementsByClassName(students[i].name)[0].style.backgroundColor = "#292C2E";  // Change the color back to the original
-                }, 300);
+                    document.getElementsByClassName(students[i].name)[0].style.backgroundColor = "#292C2E";}, 300);
 
             })
 

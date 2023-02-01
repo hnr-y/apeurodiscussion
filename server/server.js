@@ -36,7 +36,7 @@ async function spreadsheetsetup() {
     })
     gsapi = google.sheets({ version: "v4", auth: client })
     const result = (await gsapi.spreadsheets.get({
-        spreadsheetId: "1tO9Cu5hEy0CPxLPnKETTZz26zjr_PR8AIb2650jdsbA"
+        spreadsheetId: "1G7UXpGoB2aIe-chtI8h-vu97Pww1ST_hesnLx-rP2CU"
     })).data.sheets.map((sheet) => {
         return sheet.properties.title
     })
@@ -45,7 +45,7 @@ async function spreadsheetsetup() {
 }
 async function update_sheets(r, v) {
     var options = {
-        spreadsheetId: '1tO9Cu5hEy0CPxLPnKETTZz26zjr_PR8AIb2650jdsbA',
+        spreadsheetId: '1G7UXpGoB2aIe-chtI8h-vu97Pww1ST_hesnLx-rP2CU',
         range: r,
         valueInputOption: "USER_ENTERED",
 
@@ -60,7 +60,7 @@ async function update_sheets(r, v) {
 }
 async function create_new_sheets(t) {
     var options = {
-        spreadsheetId: "1tO9Cu5hEy0CPxLPnKETTZz26zjr_PR8AIb2650jdsbA",
+        spreadsheetId: "1G7UXpGoB2aIe-chtI8h-vu97Pww1ST_hesnLx-rP2CU",
         resource: {
             requests: [{
                 addSheet: {
@@ -100,8 +100,10 @@ con.connect(function (err) {
     console.log("Connected!");
     server = http.Server(app);
     server.listen(5000);
-
     const io = socketIO(server, {
+	    path: '/server',	    
+	    
+	    'transports': ['websocket', 'polling'],
         cors: {
             origin: "*", //your own :port or a "*" for all origins
         }
@@ -109,6 +111,21 @@ con.connect(function (err) {
 
 
     io.on('connection', function (socket) {
+	    con.query("SELECT * FROM apeurodiscussion", function (err, result) {
+		                    if (err) throw err;
+		                    database_data = eval(JSON.parse(JSON.stringify(result)))
+		                    
+		                });
+	socket.on('authentication', (data)=>{
+	
+	if(data=='thisisedwinsfault123'){
+
+	socket.emit('auth', 'correct')
+	}
+		else{
+			socket.emit('auth', "incorrect")
+		}
+	})
         socket.on('get_database', () => {
             con.query("SELECT * FROM apeurodiscussion", function (err, result) {
                 if (err) throw err;

@@ -12,7 +12,7 @@ const Home = () => {
             <h1 style={{ textAlign: "center", fontSize: "8vh", marginTop: 0, marginBottom: 0, fontFamily: 'specialhelvetica', backgroundColor: '#292C2E' }}>
                 AP European <span style={{ color: "white" }}>History</span>
             </h1>
-            <p style={{ color: 'white', fontSize: '10vh', textAlign: 'center', fontFamily: 'specialhelvetica' }}>W landing page</p>
+            <p style={{ color: 'white', fontSize: '10vh', textAlign: 'center', fontFamily: 'specialhelvetica' }}></p>
 
             <Link style={{ marginLeft: 100, color: 'white', fontFamily: 'specialhelvetica' }} to="/">home</Link>
             <Link style={{ marginLeft: 100, color: 'white', fontFamily: 'specialhelvetica' }} to="/recorder">recorder</Link>

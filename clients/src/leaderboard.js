@@ -18,7 +18,7 @@ const Leaderboard = () => {
         return 0;
 
     }
-    const socket = io('localhost:5000');
+    const socket = io('http://54.151.75.108/', { path: '/server'});
     socket.on('connect', (data) => {
 
         console.log("connected to socket")
