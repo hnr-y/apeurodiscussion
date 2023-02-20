@@ -1,55 +1,58 @@
 import { Link } from "react-router-dom";
+import Login from "./Login";
 import io from 'socket.io-client';
 import "./recorder.css"
 import Burger from "./Burger";
+import { useState } from "react";
 const Recorder = () => {
     document.body.style.background = '#292C2E'
     let size
     let students
-    const socket = io('http://54.151.75.108/', { path: '/server'});
+    // const socket = io('http://54.151.75.108/', { path: '/server'});
+    const socket = io('localhost:5000', { path: '/server' })
+    const [aut, setAut] = useState("hidden")
     var database_data
     socket.on('connect', (data) => {
-	    var pwd;
-	                while (pwd == null) { pwd = prompt("please enter the  password")
-				console.log(pwd)
-				              socket.emit('authentication',pwd)}
-								                                     
-    	
-    socket.on('auth', (data)=>{
-	if(data=="correct"){
-		console.log("aaaa")
-		socket.emit('get_database')
-		return("correct")
-	}
-	    else{
-document.body.innerHTML='<div><h1 style="position:fixed; top: 10%; left: 50%; transform: translate(-50%, -50%); fontSize:10vh;">Wrong Password</h1><img src="https://media.tenor.com/s6Y_D_8viO4AAAAC/clash-royale-cry.gif" style="height:60vh; position:fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);"></img></div>'
 
-	    }
-    })
-    socket.on('update_page', (data) => {
-        // students.sort(compare)
-        // students.sort(compare)
-        database_data = data
-        if (database_data.length !== students.length) {
-            document.querySelector('div.recorder').innerHTML = ''
-            students = database_data
-            build_page()
-        }
-        else {
-            students = database_data
-            for (let i = 0; i < students.length; i++) {
+        window.addEventListener('storage', () => {
+            // socket.emit('authentication', localStorage.getItem('name'))
+            window.location.reload()
+        });
+        socket.emit('authentication', localStorage.getItem('name'))
 
-                document.getElementsByClassName(students[i].name)[0].getElementsByClassName(students[i].name + 'score')[0].innerHTML = "Score: " + students[i].points
-
+        socket.on('auth', (data) => {
+            if (data == "correct") {
+                setAut('hidden')
+                socket.emit('get_database')
             }
-        }
+            else {
+                setAut('visible')
+            }
+        })
+        socket.on('update_page', (data) => {
+            // students.sort(compare)
+            // students.sort(compare)
+            database_data = data
+            if (database_data.length !== students.length) {
+                document.querySelector('div.recorder').innerHTML = ''
+                students = database_data
+                build_page()
+            }
+            else {
+                students = database_data
+                for (let i = 0; i < students.length; i++) {
 
-    })
+                    document.getElementsByClassName(students[i].name)[0].getElementsByClassName(students[i].name + 'score')[0].innerHTML = "Score: " + students[i].points
 
-    socket.on('all_data', (data) => {
-        students = data
-        build_page()
-    })
+                }
+            }
+
+        })
+
+        socket.on('all_data', (data) => {
+            students = data
+            build_page()
+        })
     })
 
 
@@ -180,7 +183,8 @@ document.body.innerHTML='<div><h1 style="position:fixed; top: 10%; left: 50%; tr
                 socket.emit('update_data', [students[i].id, "points", students[i].points += 1])
                 document.getElementsByClassName(students[i].name)[0].style.backgroundColor = 'green'
                 setTimeout(function () {
-                    document.getElementsByClassName(students[i].name)[0].style.backgroundColor = "#292C2E";}, 300);
+                    document.getElementsByClassName(students[i].name)[0].style.backgroundColor = "#292C2E";
+                }, 300);
 
             })
             document.getElementsByClassName(students[i].name + 'sub')[0].addEventListener('click', function (event) {
@@ -190,7 +194,8 @@ document.body.innerHTML='<div><h1 style="position:fixed; top: 10%; left: 50%; tr
 
                 document.getElementsByClassName(students[i].name)[0].style.backgroundColor = 'red'
                 setTimeout(function () {
-                    document.getElementsByClassName(students[i].name)[0].style.backgroundColor = "#292C2E";}, 300);
+                    document.getElementsByClassName(students[i].name)[0].style.backgroundColor = "#292C2E";
+                }, 300);
 
             })
 
@@ -205,15 +210,17 @@ document.body.innerHTML='<div><h1 style="position:fixed; top: 10%; left: 50%; tr
 
     return (
         <div>
+            <h1 style={{ visibility: aut, position: "fixed", top: "10%", left: "50%", transform: "translate(-50%, -50%)", fontSize: "10vh", zIndex: 998 }}>Wrong Password</h1>
+            <img src="https://media.tenor.com/s6Y_D_8viO4AAAAC/clash-royale-cry.gif" style={{ visibility: aut, height: "60vh", position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)", zIndex: 998 }}></img>
             <Burger></Burger>
+            <Login style={{ marginLeft: "100px", marginRight: "auto" }}></Login>
 
-            <h1 style={{ textAlign: "center", fontSize: "5vh", marginTop: 0, marginBottom: 0, fontFamily: 'specialhelvetica' }}>
+            <h1 style={{ textAlign: "center", fontSize: "5vh", marginTop: 0, marginBottom: 0, fontFamily: 'specialhelvetica', marginLeft: "40%", position: "absolute" }}>
                 AP European <span style={{ color: "white" }}>History</span>
             </h1>
-
             <div className="recorder" style={{
-                width: "90vw", height: "90vh", background: "#292C2E", display: "grid", marginLeft: "5%",
-                gridTemplateColumns: "auto auto auto"
+                marginTop: "6%", position: "absolute",
+                width: "90vw", height: "87vh", background: "#292C2E", display: "grid", marginLeft: "5%",
             }}>
             </div>
         </div >

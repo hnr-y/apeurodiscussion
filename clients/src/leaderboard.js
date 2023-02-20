@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import io from 'socket.io-client';
 import Burger from './Burger';
+import Login from './Login';
 
 
 
@@ -18,9 +19,13 @@ const Leaderboard = () => {
         return 0;
 
     }
-    const socket = io('http://54.151.75.108/', { path: '/server'});
+    // const socket = io('http://54.151.75.108/', { path: '/server'});
+    const socket = io('localhost:5000', { path: "/server" })
     socket.on('connect', (data) => {
-
+        window.addEventListener('storage', () => {
+            // socket.emit('authentication', localStorage.getItem('name'))
+            window.location.reload()
+        });
         console.log("connected to socket")
         socket.emit('get_database')
 
@@ -50,13 +55,13 @@ const Leaderboard = () => {
             if (students.length % 2 == 0) {
 
                 var median = (students[students.length / 2].points + students[students.length / 2 - 1].points) / 2
-    
+
             }
             else {
                 var median = students[(students.length - 1) / 2].points
             }
             average = average.toFixed(2)
-            document.getElementsByClassName('statistics')[0].innerHTML = 
+            document.getElementsByClassName('statistics')[0].innerHTML =
                 'Average: ' + average + '&nbsp;'.repeat(50) + 'High: ' + students[0].points + "<br />" +
                 "Median: " + median + '&nbsp;'.repeat(55) + "Low: " + students.at(-1).points
             for (let i = 0; i < students.length; i++) {
@@ -97,7 +102,7 @@ const Leaderboard = () => {
         else {
             var median = students[(students.length - 1) / 2].points
         }
-        statistics.innerHTML = 
+        statistics.innerHTML =
             'Average: ' + average + '&nbsp;'.repeat(50) + 'High: ' + students[0].points + "<br />" +
             "Median: " + median + '&nbsp;'.repeat(55) + "Low: " + students.at(-1).points
 
@@ -206,12 +211,12 @@ const Leaderboard = () => {
     }
 
     return (
-        <div style={{ marginTop: 0 }}>
+        <div >
             <Burger></Burger>
-            {/* <Link style={{ marginLeft: 100 }} to="/">home</Link>
-            <Link style={{ marginLeft: 100 }} to="/recorder">recorder</Link>
-            <Link style={{ marginLeft: 100 }} to="/leaderboard">leaderboard</Link> */}
-            <h1 style={{ textAlign: "center", fontSize: "5vh", marginTop: 0, marginBottom: 0, fontFamily: 'specialhelvetica' }}>
+
+            <Login style={{ marginLeft: "100px", marginRight: "auto" }}></Login>
+
+            <h1 style={{ textAlign: "center", fontSize: "5vh", marginTop: 0, marginBottom: 0, fontFamily: 'specialhelvetica', marginLeft: "40%", position: "absolute" }}>
                 AP European <span style={{ color: "white" }}>History</span>
             </h1>
             <div className="leaderboard" style={{ minHeight: "100vh", background: "#292C2E" }}>

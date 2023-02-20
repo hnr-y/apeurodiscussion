@@ -101,9 +101,9 @@ con.connect(function (err) {
     server = http.Server(app);
     server.listen(5000);
     const io = socketIO(server, {
-	    path: '/server',	    
-	    
-	    'transports': ['websocket', 'polling'],
+        path: '/server',
+
+        'transports': ['websocket', 'polling'],
         cors: {
             origin: "*", //your own :port or a "*" for all origins
         }
@@ -111,21 +111,21 @@ con.connect(function (err) {
 
 
     io.on('connection', function (socket) {
-	    con.query("SELECT * FROM apeurodiscussion", function (err, result) {
-		                    if (err) throw err;
-		                    database_data = eval(JSON.parse(JSON.stringify(result)))
-		                    
-		                });
-	socket.on('authentication', (data)=>{
-	
-	if(data=='thisisedwinsfault123'){
+        con.query("SELECT * FROM apeurodiscussion", function (err, result) {
+            if (err) throw err;
+            database_data = eval(JSON.parse(JSON.stringify(result)))
 
-	socket.emit('auth', 'correct')
-	}
-		else{
-			socket.emit('auth', "incorrect")
-		}
-	})
+        });
+        socket.on('authentication', (data) => {
+
+            if (['Edwin Hou'].includes(data)) {
+
+                socket.emit('auth', 'correct')
+            }
+            else {
+                socket.emit('auth', "incorrect")
+            }
+        })
         socket.on('get_database', () => {
             con.query("SELECT * FROM apeurodiscussion", function (err, result) {
                 if (err) throw err;
@@ -169,10 +169,10 @@ con.connect(function (err) {
                         update_sheets(spreadsheettitle + "!A1", spreadsheetdata)
                     }
                     )
-                }else{
+                } else {
                     update_sheets(spreadsheettitle + "!A1", spreadsheetdata)
                 }
-                
+
 
             })
 
