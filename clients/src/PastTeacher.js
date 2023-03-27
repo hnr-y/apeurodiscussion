@@ -356,7 +356,7 @@ const PastTeacher = (inp) => {
     }, []);
     document.body.style.background = '#292C2E'
     // const socket = io('http://54.151.75.108/', { path: '/server' });
-    const socket = io('http://54.151.75.108/', { path: '/server'})
+    const socket = io('https://apeuro.app/', { path: '/server'})
     const [aut, setAut] = useState("hidden")
     const [s, setS] = useState("visible")
     socket.on('connect', (data) => {
