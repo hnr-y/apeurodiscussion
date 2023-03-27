@@ -19,7 +19,7 @@ const Recorder = () => {
     let size
     let students = []
     // const socket = io('http://54.151.75.108/', { path: '/server'});
-    const socket = io('http://54.151.75.108/', { path: '/server'})
+    const socket = io('https://apeuro.app/', { path: '/server'})
     const [aut, setAut] = useState("hidden")
     var database_data
 
