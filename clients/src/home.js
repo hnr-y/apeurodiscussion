@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import io from 'socket.io-client';
 const Home = () => {
-    const socket = io('http://54.151.75.108/', { path: '/server'})
+    const socket = io('https://apeuro.app/', { path: '/server'})
     let navigate = useNavigate()
     useEffect(() => {
         let animation = window.bodymovin.loadAnimation({
