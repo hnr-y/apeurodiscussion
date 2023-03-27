@@ -62,7 +62,7 @@ const Ul = styled.ul`
 
 
 const RightNav = ({ open }) => {
-  const socket = io('localhost:5000', { path: '/server' })
+  const socket = io('http://54.151.75.108/', { path: '/server'})
   const [auth_teacher, setAuth_teacher] = useState("none")
   const [auth_recorder, setAuth_recorder] = useState("none")
   useEffect(() => {

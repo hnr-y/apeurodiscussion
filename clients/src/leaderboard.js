@@ -18,7 +18,7 @@ const Leaderboard = (teacher) => {
         return 0;
     }
     // const socket = io('http://54.151.75.108/', { path: '/server'});
-    const socket = io('localhost:5000', { path: "/server" })
+    const socket = io('http://54.151.75.108/', { path: '/server'})
     socket.on('connect', (data) => {
         window.addEventListener('storage', () => {
             // socket.emit('authentication', localStorage.getItem('name'))

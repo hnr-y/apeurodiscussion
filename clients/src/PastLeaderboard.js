@@ -17,7 +17,7 @@ const PastLeaderboard = (inp) => {
     let students
     let navigate = useNavigate()
     document.body.style.background = '#292C2E'
-    const socket = io('localhost:5000', { path: '/server' })
+    const socket = io('http://54.151.75.108/', { path: '/server'})
     useEffect(() => {
         socket.on('connect', (data) => {
             document.querySelector('p#past').addEventListener('click', () => {
