@@ -89,7 +89,7 @@ const Intermediate = () => {
     const [discussions, setDiscussions] = useState({})
     const hughes_period = ["Period 2", "Period 4", "Period 6"];
     const ceran_period = ["Period 1", "Period 5"];
-    const socket = io('http://54.151.75.108/', { path: '/server'})
+    const socket = io('https://apeuro.app/', { path: '/server'})
     let navigate = useNavigate()
     useEffect(() => {
         socket.on('connect', () => {
