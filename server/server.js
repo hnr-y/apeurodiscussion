@@ -18,11 +18,7 @@ http = require('http')
 socketIO = require('socket.io')
 
 var con = mysql.createConnection({
-    host: "apeurotesting.cgogk6qktlax.us-west-1.rds.amazonaws.com",
-    user: "admin",
-    database: "apeurodiscussion",
-    password: "edwinscockishard",
-    port: 3306,
+    
 });
 
 async function spreadsheetsetup() {
