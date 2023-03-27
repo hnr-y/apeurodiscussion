@@ -1,0 +1,177 @@
+@font-face {
+    font-family: "specialhelvetica";
+    src:
+        url("./HelveticaNowDisplay-Light.ttf") format("truetype");
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    background-color: #292C2E;
+}
+
+#overAll {
+    width: 85vw;
+    height: 85vh;
+    background-color: rgba(0, 0, 0, 0.955);
+    margin-right: auto;
+    margin-left: auto;
+    margin: 0 auto;
+    margin-top: 7.5vh;
+    position: relative;
+}
+
+#welcomeAndTime {
+    width: 25.26vw;
+    height: 18.61vh;
+    background-color: #292C2E;
+    position: relative;
+    z-index: 998;
+    border-radius: 10px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #373a3c;
+}
+
+#fag{
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    height: min-content;
+    width: min-content;
+}
+
+#time {
+    z-index: 999;
+    font-size: 30px;
+    color: white;
+    font-family: "specialhelvetica";
+    display: inline-block;
+    margin-left: 90px;
+}
+
+#date {
+    z-index: 999;
+    font-size: 30px;
+    color: white;
+    font-family: "specialhelvetica";
+    right: 0px;
+    left: auto;
+    top: 0px;
+    position: absolute;
+    display: inline-block;
+}
+
+#greeting {
+    z-index: 999;
+    font-size: 30px;
+    color: white;
+    font-family: "specialhelvetica";
+    display: flex;
+    position: absolute;
+    display: inline-block;
+}
+
+#previousDiscussions {
+    width: 25.26vw;
+    height: 65.35vh;
+    background-color: #292C2E;
+    position: absolute;
+    z-index: 999;
+    margin-left: 0px;
+    bottom: 0px;
+    border-radius: 10px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #373a3c;
+}
+
+#controls {
+    width: 59.375vw;
+    height: 84.5vh;
+    border-color: #373a3c;
+    border-radius: 10px;
+    border-width: 2px;
+    border-style: solid;
+    background-color: #292C2E;
+    position: absolute;
+    bottom: 0px;
+    margin-left: 25.520833vw;
+    z-index: 999;
+}
+
+#periodSelection {
+    width: 21.145833vw;
+    height: 9.97037vh;
+    background-color: #292C2E;
+    border-radius: 10px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #373a3c;
+    z-index: 999;
+    position: absolute;
+    margin-left: 0.2702083vw;
+    margin-top: 0.481481vh;
+}
+
+#timePassed {
+    width: 21.145833vw;
+    height: 9.97037vh;
+    background-color: #292C2E;
+    border-radius: 10px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #373a3c;
+    z-index: 999;
+    position: absolute;
+    margin-left: 0.2702083vw;
+    margin-top: 11.433332vh;
+}
+
+#chooseRecorder {
+    width: 21.145833vw;
+    height: 19.7251271vh;
+    background-color: #292C2E;
+    border-radius: 10px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #373a3c;
+    z-index: 999;
+    position: absolute;
+    margin-left: 0.2702083vw;
+    margin-top: 22.4296278vh;
+}
+
+#startButton {
+    width: 21.145833vw;
+    height: 19.7251271vh;
+    background-color: #292C2E;
+    border-radius: 10px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #373a3c;
+    z-index: 999;
+    position: absolute;
+    margin-left: 0.2702083vw;
+    margin-top: 43.0259236vh;
+}
+
+#stopButton {
+    width: 21.145833vw;
+    height: 19.7251271vh;
+    background-color: #292C2E;
+    border-radius: 10px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #373a3c;
+    z-index: 999;
+    position: absolute;
+    margin-left: 0.2702083vw;
+    bottom: 0.5702083vh;
+}

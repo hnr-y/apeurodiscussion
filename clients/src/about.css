@@ -1,0 +1,69 @@
+@font-face {
+    font-family: "specialhelvetica";
+    src:
+        url("./HelveticaNowDisplay-Light.ttf") format("truetype");
+}
+
+* {
+    background-color: #292C2E;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "specialhelvetica";
+    color: white;
+}
+
+#animationBackground {
+    width: 75%;
+    height: 75%;
+    margin-left: 22%;
+    display: inline-block;
+    position: absolute;
+    z-index: 997;
+    margin-top: 10%;
+}
+
+#thing {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 997;
+}
+
+
+
+
+.title {
+    font-size: 50px;
+    position: absolute;
+    display: inline-block;
+    text-align: center;
+    display: inline-block;
+    margin-top: 6%;
+    z-index: 997;
+    background-color: transparent;
+}
+
+#intro {
+    font-size: 25px;
+    display: inline-block;
+    margin-top: 6%;
+    z-index: 997;
+    background-color: transparent;
+    margin-left: 5%;
+}
+
+#link {
+    color: #7e9bb3;
+    background-color: transparent;
+}
+
+#bodyText {
+    width: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 997;
+    background-color: transparent;
+}

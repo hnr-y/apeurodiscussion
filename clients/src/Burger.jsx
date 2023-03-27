@@ -8,17 +8,20 @@ const StyledBurger = styled.div`
   position: fixed;
   top:2vh;
   left: 20px;
-  z-index: 20;
+  z-index: 999;
   display: none;
 
   @media {
-    
+    z-index: 999;
+
     display: flex;
     justify-content: space-around;
     flex-flow: column nowrap;
   }
 
   div {
+    z-index: 999;
+
     width: 2rem;
     height: 0.25rem;
     background-color: ${({ open }) => open ? 'white' : 'white'};

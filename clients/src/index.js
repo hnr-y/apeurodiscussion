@@ -7,5 +7,4 @@ document.body.style.paddingTop = 0
 ReactDOM.createRoot(document.getElementById('root')).render(
     <GoogleOAuthProvider clientId="1010983540888-f1sblt8aj006tvabkas65plkmqjaditt.apps.googleusercontent.com">
         <App /></GoogleOAuthProvider>
-
 )

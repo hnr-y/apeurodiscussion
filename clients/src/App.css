@@ -7,21 +7,280 @@
 * {
   margin: 0;
   padding: 0;
+  font-family: specialhelvetica;
 }
 
-button {
+button.alphabetical {
   background-color: black;
   padding: 20px;
   border-radius: .5rem;
   color: white;
   border: none;
-  margin-bottom: 50px;
+
 }
 
-button:hover {
+button.alphabetical:hover {
   border: 2px solid white;
 }
 
-button i {
+button.custom {
+  background-color: black;
+  padding: 20px;
+  border-radius: .5rem;
+  color: white;
+  border: none;
+
+}
+
+button.custom:hover {
+  border: 2px solid white;
+}
+
+button.moveable {
+  background-color: black;
+  padding: 20px;
+  border-radius: .5rem;
+  color: white;
+  border: none;
+
+}
+
+button.moveable:hover {
+  border: 2px solid white;
+}
+
+/* button i {
   margin-right: 10px;
+} */
+
+
+.App {
+  text-align: center;
+}
+
+
+* {
+  background-color: #292C2E;
+  font-family: "specialhelvetica";
+  color: white;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+#historyTag {
+  font-size: 25px;
+  margin-left: 7.1875vw;
+  margin-top: 3.4259259259259259259259259259259vh;
+  display: inline-block;
+  position: absolute;
+  z-index: 997;
+}
+
+#trackerTag {
+  font-size: 150px;
+  margin-left: 3.3333333333333333333333333333333vw;
+  margin-top: 37.87037037037037037037037037037vh;
+  display: inline-block;
+  position: absolute;
+  z-index: 997;
+  background-color: transparent;
+}
+
+#shareButton {
+  font-size: 25px;
+  margin-left: 84.635416666666666666666666666667vw;
+  margin-top: 3.4259259259259259259259259259259vh;
+  border-color: #292C2E;
+  border: transparent;
+  display: inline-block;
+  position: absolute;
+  z-index: 999;
+}
+
+#aboutButton {
+  font-size: 25px;
+  margin-left: 89.583333333333333333333333333333vw;
+  margin-top: 3.4259259259259259259259259259259vh;
+  border: transparent;
+  position: absolute;
+  display: inline-block;
+  z-index: 999;
+}
+
+#shareButton {
+  /* font-size: 75px; */
+  /* margin-left: 69.760416666666666666666666666667%;
+  margin-top: 63.625vh; */
+  /* border: transparent;
+  position: absolute;
+  display: inline-block; */
+  z-index: 997;
+  /* background-color: transparent; */
+}
+
+#aboutButton {
+  /* font-size: 75px; */
+  /* margin-left: 69.760416666666666666666666666667%;
+  margin-top: 63.625vh; */
+  /* border: transparent;
+  position: absolute;
+  display: inline-block; */
+  z-index: 997;
+  /* background-color: transparent; */
+}
+
+#signIn {
+  font-size: 75px;
+  margin-left: 69.760416666666666666666666666667%;
+  margin-top: 63.625vh;
+  border: transparent;
+  position: absolute;
+  display: inline-block;
+  z-index: 997;
+  background-color: transparent;
+}
+
+#leaderboard {
+  font-size: 75px;
+  margin-left: 69.760416666666666666666666666667%;
+  margin-top: 76vh;
+  border: transparent;
+  position: absolute;
+  display: inline-block;
+  z-index: 997;
+  background-color: transparent;
+}
+
+#animationBackground {
+  width: 75.416666666666666666666666666667vw;
+  height: 75.518518518518518518518518518519vh;
+  display: inline-block;
+  margin: 0 auto;
+  position: absolute;
+  right: 5%;
+  margin-top: 5%;
+}
+
+.hover-underline-animation-small {
+  display: inline-block;
+  position: relative;
+  color: white;
+  z-index: 997;
+}
+
+.hover-underline-animation-small::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: white;
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+  z-index: 997;
+}
+
+.hover-underline-animation-small:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+  z-index: 997;
+}
+
+.hover-underline-animation-large {
+  display: inline-block;
+  position: relative;
+  color: white;
+  z-index: 997;
+}
+
+.hover-underline-animation-large::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 3px;
+  bottom: 0;
+  left: 0;
+  background-color: white;
+  transform-origin: bottom right;
+  transition: transform 0.4s ease-out;
+  z-index: 997;
+}
+
+.hover-underline-animation-large:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+  z-index: 997;
+}
+
+@media screen and (max-width: 768px) {
+  #trackerTag {
+    font-size: 50px;
+    margin-left: 3.3333333333333333333333333333333vw;
+    margin-top: 20vh;
+    display: inline-block;
+    position: absolute;
+    z-index: 997;
+    background-color: transparent;
+  }
+
+  #signIn {
+    font-size: 25px;
+    margin-left: 60.760416666666666666666666666667%;
+    margin-top: 50.625vh;
+    border: transparent;
+    position: absolute;
+    display: inline-block;
+    z-index: 997;
+    background-color: transparent;
+  }
+
+  #leaderboard {
+    font-size: 25px;
+    margin-left: 60.760416666666666666666666666667%;
+    margin-top: 60vh;
+    border: transparent;
+    position: absolute;
+    display: inline-block;
+    z-index: 997;
+    background-color: transparent;
+  }
+
+  #historyTag {
+    display: none;
+  }
+
+  #animationBackground {
+    width: 75.416666666666666666666666666667vw;
+    height: 75.518518518518518518518518518519vh;
+    display: inline-block;
+    margin: 0 auto;
+    position: absolute;
+    right: 5%;
+    margin-top: -10%;
+  }
+
+  #shareButton {
+    font-size: 20px;
+    margin-left: 64.635416666666666666666666666667vw;
+    margin-top: 3.4259259259259259259259259259259vh;
+    border-color: #292C2E;
+    border: transparent;
+    display: inline-block;
+    position: absolute;
+    z-index: 999;
+  }
+
+  #aboutButton {
+    font-size: 20px;
+    margin-left: 80.583333333333333333333333333333vw;
+    margin-top: 3.4259259259259259259259259259259vh;
+    border: transparent;
+    position: absolute;
+    display: inline-block;
+    z-index: 999;
+  }
 }
