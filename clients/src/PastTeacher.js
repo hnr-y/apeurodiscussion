@@ -308,6 +308,9 @@ const Ul = styled.ul`
 `
 
 const PastTeacher = (inp) => {
+    for (let i = 1; i < 9999; i++) {
+        clearInterval(i);
+    }
     let navigate = useNavigate()
     let period
     console.log(inp)
