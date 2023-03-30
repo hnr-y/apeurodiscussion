@@ -17,7 +17,7 @@ var gsapi
 http = require('http')
 socketIO = require('socket.io')
 
-var con = mysql.createConnection({
+var con = mysql.createPool({
     
 });
 
