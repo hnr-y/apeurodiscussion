@@ -47,6 +47,9 @@ const Home = () => {
                 if (localStorage.getItem('is_teacher') == "false") {
                     navigate("/recorder")
                 }
+                if (localStorage.getItem('is_teacher') == "true") {
+                    navigate("/teacher")
+                }
             }
         })
     })
