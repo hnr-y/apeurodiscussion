@@ -302,7 +302,9 @@ const Ul = styled.ul`
 `
 
 const Teacher = () => {
-
+    for (let i = 1; i < 9999; i++) {
+        clearInterval(i);
+    }
     let navigate = useNavigate()
     let discussion_data
     let elapsed
@@ -583,10 +585,6 @@ const Teacher = () => {
             document.querySelectorAll('div#period')[i].addEventListener('click', () => {
                 navigate('/teacher/' + (i + 1))
             })
-        }
-        if (window.myInterval != undefined && window.myInterval != 'undefined') {
-            window.clearInterval(window.myInterval);
-            alert('Timer cleared with id' + window.myInterval);
         }
         setInterval(function () {
             let date = new Date();
