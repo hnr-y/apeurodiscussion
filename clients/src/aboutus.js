@@ -92,10 +92,10 @@ const About = () => {
                         href="https://github.com/hnr-y/apeurodiscussion">GitHub</a>. <br /> <br /> <b> Henry Lee <i>UX/UI Designer
                             and
                             Frontend Developer</i> </b> <br /> Henry Lee enjoys mountain biking on his free
-                    time. He is a USACO platinum qualifier and AP European History enjoyer. He has 6.2k clash royale trophies.
+                    time. He is a USACO silver qualifier and AP European History enjoyer. He has 6.2k clash royale trophies.
                     <br /> <br /> <b> Edwin Hou <i> Full Stack Developer</i> </b> <br /> Edwin Hou enjoys Clash Royale on his free
                     time and is
-                    a top 10,000 player with 7500 trophies. He is also an USACO platinum qualifier and AIME qualifier. <br /> <br />
+                    a top 10,000 player with 9000 trophies. He is also an USACO silver qualifier and USAMO qualifier. <br /> <br />
                     <br /> <br /> <br /> <b> Why? </b> <br /> This project meant hundreds of hours put into learning react, node, SQL,
                     and many more technologies and even more passion. Through this, we believe we have brought an invaluable
                     tool to many classNamerooms across the school. We saw the slow and archaic the old system of paper and pen was,
